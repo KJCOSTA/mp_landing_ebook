@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
   // Scroll Reveal
-  var targets = '.pain-card,.chapter-card,.chapter-detail,.testimonial-card,.bonus-card,.product-showcase,.pix-step,.transform-card,.guarantee-box,.price-box,.faq-item';
+  var targets = '.pain-card,.chapter-card,.chapter-detail,.testimonial-card,.bonus-card,.product-showcase,.pix-step,.transform-card,.guarantee-box,.price-box,.faq-item,.lifestyle-strip,.lifestyle-gallery__item,.lifestyle-highlight__card';
   document.querySelectorAll(targets).forEach(function (el, i) {
     el.classList.add('reveal');
     el.style.transitionDelay = (i % 6) * 0.08 + 's';
