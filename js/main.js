@@ -1,116 +1,62 @@
-/* ============================================
-   MUNDO DA PRECE - Main JavaScript
-   ============================================ */
-
 document.addEventListener('DOMContentLoaded', function () {
 
-  // ---- Scroll Reveal Animation ----
-  function initScrollReveal() {
-    var revealElements = [
-      '.content-card',
-      '.testimonial',
-      '.chapter',
-      '.pix-step',
-      '.trust-badge',
-      '.bonus-badge',
-      '.guarantee-card',
-      '.price-card'
-    ];
+  // Scroll Reveal
+  var targets = '.pain-card,.chapter-card,.chapter-detail,.testimonial-card,.bonus-card,.product-showcase,.pix-step,.transform-card,.guarantee-box,.price-box,.faq-item';
+  document.querySelectorAll(targets).forEach(function (el, i) {
+    el.classList.add('reveal');
+    el.style.transitionDelay = (i % 6) * 0.08 + 's';
+  });
 
-    revealElements.forEach(function (selector) {
-      var elements = document.querySelectorAll(selector);
-      elements.forEach(function (el) {
-        el.classList.add('reveal');
-      });
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
     });
+  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
 
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -40px 0px'
-    });
+  document.querySelectorAll('.reveal').forEach(function (el) { observer.observe(el); });
 
-    document.querySelectorAll('.reveal').forEach(function (el) {
-      observer.observe(el);
-    });
-  }
+  // Copy Pix Key
+  var copyBtn = document.getElementById('copyPixBtn');
+  var pixKey = document.getElementById('pixKey');
+  var btnText = document.getElementById('copyBtnText');
 
-  // ---- Copy PIX Key ----
-  function initPixCopy() {
-    var copyBtn = document.getElementById('copyPixBtn');
-    var pixKey = document.getElementById('pixKey');
-
-    if (!copyBtn || !pixKey) return;
-
+  if (copyBtn && pixKey) {
     copyBtn.addEventListener('click', function () {
-      var keyText = pixKey.textContent.trim();
-
+      var key = pixKey.textContent.trim();
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(keyText).then(function () {
-          showCopiedFeedback(copyBtn);
-        }).catch(function () {
-          fallbackCopy(keyText, copyBtn);
-        });
-      } else {
-        fallbackCopy(keyText, copyBtn);
-      }
+        navigator.clipboard.writeText(key).then(function () { showCopied(); }).catch(function () { fallback(key); });
+      } else { fallback(key); }
     });
   }
 
-  function fallbackCopy(text, btn) {
-    var textarea = document.createElement('textarea');
-    textarea.value = text;
-    textarea.style.position = 'fixed';
-    textarea.style.left = '-9999px';
-    textarea.style.top = '-9999px';
-    document.body.appendChild(textarea);
-    textarea.focus();
-    textarea.select();
-
-    try {
-      document.execCommand('copy');
-      showCopiedFeedback(btn);
-    } catch (err) {
-      // Silent fail
-    }
-
-    document.body.removeChild(textarea);
+  function fallback(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.cssText = 'position:fixed;left:-9999px';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); showCopied(); } catch (e) {}
+    document.body.removeChild(ta);
   }
 
-  function showCopiedFeedback(btn) {
-    var textEl = btn.querySelector('.pix-key-box__copy-text');
-    var originalText = textEl ? textEl.textContent : '';
-
-    btn.classList.add('copied');
-    if (textEl) textEl.textContent = 'Copiado!';
-
+  function showCopied() {
+    if (btnText) btnText.textContent = 'COPIADO!';
+    if (copyBtn) copyBtn.classList.add('copied');
     setTimeout(function () {
-      btn.classList.remove('copied');
-      if (textEl) textEl.textContent = originalText;
-    }, 2000);
+      if (btnText) btnText.textContent = 'COPIAR';
+      if (copyBtn) copyBtn.classList.remove('copied');
+    }, 2500);
   }
 
-  // ---- Staggered Reveal for Grid Items ----
-  function initStaggeredReveal() {
-    var grids = document.querySelectorAll('.content-grid, .chapter-list, .testimonials, .pix-steps');
-
-    grids.forEach(function (grid) {
-      var children = grid.children;
-      for (var i = 0; i < children.length; i++) {
-        children[i].style.transitionDelay = (i * 0.08) + 's';
-      }
+  // FAQ Accordion
+  document.querySelectorAll('.faq-item__question').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var item = btn.closest('.faq-item');
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function (el) { el.classList.remove('open'); });
+      if (!isOpen) item.classList.add('open');
     });
-  }
-
-  // ---- Init ----
-  initScrollReveal();
-  initPixCopy();
-  initStaggeredReveal();
+  });
 
 });
