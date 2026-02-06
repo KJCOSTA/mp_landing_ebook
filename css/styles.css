@@ -351,7 +351,7 @@ body::before{
 
 .phone-mockup__scroll{
   display:flex;flex-direction:column;
-  animation:phoneScroll 32s infinite;
+  animation:phoneScroll 38s infinite;
 }
 
 .phone-mockup__scroll img{
@@ -361,20 +361,20 @@ body::before{
 
 @keyframes phoneScroll{
   0%{transform:translateY(0)}
-  7%{transform:translateY(0);animation-timing-function:cubic-bezier(.22,1,.36,1)}
-  11%{transform:translateY(-12.5%)}
-  18%{transform:translateY(-12.5%);animation-timing-function:cubic-bezier(.22,1,.36,1)}
-  22%{transform:translateY(-25%)}
-  29%{transform:translateY(-25%);animation-timing-function:cubic-bezier(.22,1,.36,1)}
-  33%{transform:translateY(-37.5%)}
-  40%{transform:translateY(-37.5%);animation-timing-function:cubic-bezier(.22,1,.36,1)}
-  44%{transform:translateY(-50%)}
-  51%{transform:translateY(-50%);animation-timing-function:cubic-bezier(.22,1,.36,1)}
-  55%{transform:translateY(-62.5%)}
-  62%{transform:translateY(-62.5%);animation-timing-function:cubic-bezier(.22,1,.36,1)}
-  68%{transform:translateY(-37.5%)}
-  75%{transform:translateY(-37.5%);animation-timing-function:cubic-bezier(.22,1,.36,1)}
-  81%{transform:translateY(-12.5%)}
+  12%{transform:translateY(0);animation-timing-function:cubic-bezier(.22,1,.36,1)}
+  16%{transform:translateY(-12.5%)}
+  22%{transform:translateY(-12.5%);animation-timing-function:cubic-bezier(.22,1,.36,1)}
+  26%{transform:translateY(-25%)}
+  32%{transform:translateY(-25%);animation-timing-function:cubic-bezier(.22,1,.36,1)}
+  36%{transform:translateY(-37.5%)}
+  42%{transform:translateY(-37.5%);animation-timing-function:cubic-bezier(.22,1,.36,1)}
+  46%{transform:translateY(-50%)}
+  52%{transform:translateY(-50%);animation-timing-function:cubic-bezier(.22,1,.36,1)}
+  56%{transform:translateY(-62.5%)}
+  64%{transform:translateY(-62.5%);animation-timing-function:cubic-bezier(.22,1,.36,1)}
+  70%{transform:translateY(-37.5%)}
+  76%{transform:translateY(-37.5%);animation-timing-function:cubic-bezier(.22,1,.36,1)}
+  82%{transform:translateY(-12.5%)}
   88%{transform:translateY(-12.5%);animation-timing-function:cubic-bezier(.22,1,.36,1)}
   94%{transform:translateY(0)}
   100%{transform:translateY(0)}
