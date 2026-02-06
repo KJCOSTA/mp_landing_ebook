@@ -1,18 +1,22 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-  // ===== STARRY SKY =====
+  // ===== STARRY SKY (more stars, varied sizes) =====
   (function createStars() {
     var container = document.getElementById('stars');
     if (!container) return;
-    var count = 80;
+    var count = 120;
     for (var i = 0; i < count; i++) {
       var star = document.createElement('span');
       star.style.left = Math.random() * 100 + '%';
       star.style.top = Math.random() * 100 + '%';
-      star.style.width = (Math.random() * 2 + 1) + 'px';
-      star.style.height = star.style.width;
-      star.style.setProperty('--dur', (Math.random() * 4 + 2) + 's');
-      star.style.animationDelay = (Math.random() * 5) + 's';
+      var size = Math.random() * 2.5 + 0.5;
+      star.style.width = size + 'px';
+      star.style.height = size + 'px';
+      star.style.setProperty('--dur', (Math.random() * 5 + 2) + 's');
+      star.style.animationDelay = (Math.random() * 6) + 's';
+      if (size > 2) {
+        star.style.boxShadow = '0 0 ' + (size * 2) + 'px rgba(255,255,255,.15)';
+      }
       container.appendChild(star);
     }
   })();
@@ -60,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var targets = '.pain-card,.chapter-card,.chapter-detail,.testimonial-card,.bonus-card,.product-showcase,.pix-step,.transform-card,.guarantee-box,.price-box,.faq-item,.lifestyle-card,.lifestyle-highlight__card,.proof-bar__item,.countdown,.phone-mockup';
   document.querySelectorAll(targets).forEach(function (el, i) {
     el.classList.add('reveal');
-    el.style.transitionDelay = (i % 6) * 0.08 + 's';
+    el.style.transitionDelay = (i % 6) * 0.1 + 's';
   });
 
   var observer = new IntersectionObserver(function (entries) {
@@ -70,9 +74,38 @@ document.addEventListener('DOMContentLoaded', function () {
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
   document.querySelectorAll('.reveal').forEach(function (el) { observer.observe(el); });
+
+  // ===== AURORA PARALLAX ON SCROLL =====
+  (function initAuroraParallax() {
+    var aurora = document.querySelector('.aurora');
+    if (!aurora) return;
+    var waves = aurora.querySelectorAll('.aurora__wave');
+    var ticking = false;
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        requestAnimationFrame(function () {
+          var scrollY = window.pageYOffset;
+          var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          var progress = docHeight > 0 ? scrollY / docHeight : 0;
+
+          // Shift aurora opacity and position based on scroll
+          aurora.style.opacity = 0.4 + progress * 0.4;
+
+          waves.forEach(function (wave, i) {
+            var speed = (i + 1) * 8;
+            wave.style.transform = 'translateY(' + (scrollY * speed / docHeight * -1) + 'px)';
+          });
+
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  })();
 
   // ===== COPY PIX KEY =====
   var copyBtn = document.getElementById('copyPixBtn');
