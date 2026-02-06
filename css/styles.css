@@ -1141,6 +1141,92 @@ body::before{
 
 .section-glow.visible::before{opacity:1}
 
+/* ===== LIGHT SWEEP ON IMAGES ===== */
+
+.shimmer-img{
+  position:relative;overflow:hidden;
+}
+
+.shimmer-img::after{
+  content:'';position:absolute;inset:0;z-index:2;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.08) 45%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.08) 55%,transparent 60%);
+  background-size:300% 100%;
+  animation:imgSweep 6s ease-in-out infinite;
+  pointer-events:none;
+  border-radius:inherit;
+}
+
+@keyframes imgSweep{0%{background-position:200% 0}50%{background-position:-100% 0}100%{background-position:200% 0}}
+
+/* Lens flare on hero ebook */
+.hero__ebook-container::after{
+  content:'';position:absolute;
+  top:8%;right:10%;width:30px;height:30px;z-index:3;
+  background:radial-gradient(circle,rgba(255,255,255,.5) 0%,rgba(242,176,94,.2) 30%,transparent 65%);
+  border-radius:50%;
+  animation:lensFlare 5s ease-in-out infinite;
+  pointer-events:none;
+}
+
+@keyframes lensFlare{
+  0%,100%{opacity:0;transform:scale(.5)}
+  30%{opacity:.8;transform:scale(1.2)}
+  50%{opacity:.3;transform:scale(.8)}
+  70%{opacity:.9;transform:scale(1)}
+  90%{opacity:0;transform:scale(.6)}
+}
+
+/* Glow pulse on section titles when revealed */
+.section-title{
+  position:relative;
+}
+
+/* ===== MISSION SECTION ===== */
+
+.mission-section{
+  padding:4rem 0;
+}
+
+.mission-card{
+  border-radius:var(--radius-lg);overflow:hidden;
+  background:var(--glass);
+  border:1px solid rgba(242,176,94,.15);
+  box-shadow:var(--shadow-card);
+  position:relative;
+}
+
+.mission-card__img{
+  width:100%;height:280px;object-fit:cover;
+  -webkit-mask-image:linear-gradient(to bottom,black 0%,black 60%,transparent 100%);
+  mask-image:linear-gradient(to bottom,black 0%,black 60%,transparent 100%);
+}
+
+.mission-card__body{
+  padding:1.5rem 1.5rem 2rem;text-align:center;
+}
+
+.mission-card__icon{
+  font-size:2.5rem;margin-bottom:.75rem;display:block;
+}
+
+.mission-card__title{
+  font-family:var(--font-display);font-size:1.4rem;font-weight:800;
+  color:var(--orange);margin-bottom:1rem;line-height:1.3;
+}
+
+.mission-card__text{
+  font-size:1.02rem;color:var(--cream);opacity:.92;line-height:1.9;
+  max-width:600px;margin:0 auto;
+}
+
+.mission-card__text strong{color:var(--orange-light)}
+
+.mission-card__welcome{
+  margin-top:1.25rem;
+  font-size:1.1rem;font-weight:700;color:var(--orange);
+  display:block;
+}
+
 /* ===== RESPONSIVE ===== */
 
 @media(min-width:480px){
@@ -1175,6 +1261,10 @@ body::before{
   .lifestyle-highlight__text{padding:2rem;text-align:left;display:flex;flex-direction:column;justify-content:center}
   .lifestyle-highlight__quote{font-size:1.5rem}
   .phone-mockup{width:320px;height:600px}
+  .mission-card{display:grid;grid-template-columns:1fr 1fr}
+  .mission-card__img{height:100%;min-height:320px}
+  .mission-card__body{text-align:left;display:flex;flex-direction:column;justify-content:center;padding:2rem}
+  .mission-card__text{margin:0}
 }
 
 @media(min-width:900px){
