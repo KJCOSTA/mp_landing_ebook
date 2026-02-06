@@ -1,5 +1,22 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+  // ===== STARRY SKY =====
+  (function createStars() {
+    var container = document.getElementById('stars');
+    if (!container) return;
+    var count = 80;
+    for (var i = 0; i < count; i++) {
+      var star = document.createElement('span');
+      star.style.left = Math.random() * 100 + '%';
+      star.style.top = Math.random() * 100 + '%';
+      star.style.width = (Math.random() * 2 + 1) + 'px';
+      star.style.height = star.style.width;
+      star.style.setProperty('--dur', (Math.random() * 4 + 2) + 's');
+      star.style.animationDelay = (Math.random() * 5) + 's';
+      container.appendChild(star);
+    }
+  })();
+
   // ===== COUNTDOWN TIMER (fake - always ~3h47m from first visit) =====
   (function initCountdown() {
     var KEY = 'mp_countdown_end';
@@ -9,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (stored && parseInt(stored) > Date.now()) {
       endTime = parseInt(stored);
     } else {
-      // Set to 3h 47min from now
       endTime = Date.now() + (3 * 3600000) + (47 * 60000);
       localStorage.setItem(KEY, endTime.toString());
     }
@@ -18,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function () {
       var diff = endTime - Date.now();
 
       if (diff <= 0) {
-        // Reset when expired
         endTime = Date.now() + (3 * 3600000) + (47 * 60000);
         localStorage.setItem(KEY, endTime.toString());
         diff = endTime - Date.now();
@@ -42,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
   })();
 
   // ===== SCROLL REVEAL =====
-  var targets = '.pain-card,.chapter-card,.chapter-detail,.testimonial-card,.bonus-card,.product-showcase,.pix-step,.transform-card,.guarantee-box,.price-box,.faq-item,.lifestyle-card,.lifestyle-highlight__card,.proof-bar__item,.countdown';
+  var targets = '.pain-card,.chapter-card,.chapter-detail,.testimonial-card,.bonus-card,.product-showcase,.pix-step,.transform-card,.guarantee-box,.price-box,.faq-item,.lifestyle-card,.lifestyle-highlight__card,.proof-bar__item,.countdown,.phone-mockup';
   document.querySelectorAll(targets).forEach(function (el, i) {
     el.classList.add('reveal');
     el.style.transitionDelay = (i % 6) * 0.08 + 's';
