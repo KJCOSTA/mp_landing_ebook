@@ -178,6 +178,52 @@ body::before{
 
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 
+/* Responsive ebook: mobile=horizontal, desktop=vertical with 3D mockup */
+.hero__ebook--desktop{display:none}
+.hero__ebook--mobile{display:block}
+
+/* 3D Book Mockup */
+.hero__ebook-mockup{
+  position:relative;z-index:1;
+  transform:perspective(900px) rotateY(-8deg);
+  transform-style:preserve-3d;
+  transition:transform .4s ease;
+}
+.hero__ebook-mockup:hover{transform:perspective(900px) rotateY(-3deg)}
+.hero__ebook-mockup .hero__ebook-img{
+  border-radius:4px 14px 14px 4px;animation:float 5s ease-in-out infinite;
+}
+
+/* Spine */
+.hero__ebook-spine{
+  position:absolute;top:0;left:0;bottom:0;width:14px;z-index:2;
+  background:linear-gradient(90deg,
+    rgba(217,118,82,.7) 0%,rgba(242,160,87,.9) 30%,
+    rgba(242,176,94,.6) 50%,rgba(242,160,87,.5) 70%,
+    rgba(217,118,82,.3) 100%);
+  border-radius:4px 0 0 4px;
+  transform:translateZ(2px);
+  box-shadow:inset -2px 0 4px rgba(0,0,0,.3);
+}
+
+/* Page edge */
+.hero__ebook-edge{
+  position:absolute;top:4px;right:-8px;bottom:4px;width:8px;z-index:0;
+  background:linear-gradient(90deg,#e8dcc8 0%,#f5f0e6 30%,#ede5d5 60%,#ddd4c2 100%);
+  border-radius:0 2px 2px 0;
+  transform:rotateY(30deg) translateZ(-2px);
+  transform-origin:left center;
+  box-shadow:2px 0 6px rgba(0,0,0,.3);
+}
+
+/* Ground shadow */
+.hero__ebook-mockup::after{
+  content:'';position:absolute;
+  bottom:-15px;left:10%;right:5%;height:20px;z-index:-1;
+  background:radial-gradient(ellipse,rgba(0,0,0,.4) 0%,transparent 70%);
+  filter:blur(6px);
+}
+
 .hero__proof{
   display:inline-flex;align-items:center;gap:.5rem;
   background:linear-gradient(135deg,rgba(13,91,140,.2),rgba(30,38,64,.5));
@@ -305,7 +351,7 @@ body::before{
 
 .phone-mockup__scroll{
   display:flex;flex-direction:column;
-  animation:phoneScroll 12s ease-in-out infinite;
+  animation:phoneScroll 32s infinite;
 }
 
 .phone-mockup__scroll img{
@@ -314,13 +360,23 @@ body::before{
 }
 
 @keyframes phoneScroll{
-  0%,8%{transform:translateY(0)}
-  15%,23%{transform:translateY(-14%)}
-  30%,38%{transform:translateY(-28%)}
-  45%,53%{transform:translateY(-42%)}
-  60%,68%{transform:translateY(-56%)}
-  75%,83%{transform:translateY(-70%)}
-  90%,95%{transform:translateY(-42%)}
+  0%{transform:translateY(0)}
+  7%{transform:translateY(0);animation-timing-function:cubic-bezier(.22,1,.36,1)}
+  11%{transform:translateY(-12.5%)}
+  18%{transform:translateY(-12.5%);animation-timing-function:cubic-bezier(.22,1,.36,1)}
+  22%{transform:translateY(-25%)}
+  29%{transform:translateY(-25%);animation-timing-function:cubic-bezier(.22,1,.36,1)}
+  33%{transform:translateY(-37.5%)}
+  40%{transform:translateY(-37.5%);animation-timing-function:cubic-bezier(.22,1,.36,1)}
+  44%{transform:translateY(-50%)}
+  51%{transform:translateY(-50%);animation-timing-function:cubic-bezier(.22,1,.36,1)}
+  55%{transform:translateY(-62.5%)}
+  62%{transform:translateY(-62.5%);animation-timing-function:cubic-bezier(.22,1,.36,1)}
+  68%{transform:translateY(-37.5%)}
+  75%{transform:translateY(-37.5%);animation-timing-function:cubic-bezier(.22,1,.36,1)}
+  81%{transform:translateY(-12.5%)}
+  88%{transform:translateY(-12.5%);animation-timing-function:cubic-bezier(.22,1,.36,1)}
+  94%{transform:translateY(0)}
   100%{transform:translateY(0)}
 }
 
@@ -332,18 +388,36 @@ body::before{
   pointer-events:none;
 }
 
+/* Realistic CSS finger */
 .phone-mockup__finger{
-  position:absolute;bottom:40px;right:20px;z-index:20;
-  font-size:2.5rem;
-  animation:fingerSwipe 3s ease-in-out infinite;
-  filter:drop-shadow(0 4px 8px rgba(0,0,0,.4));
-  opacity:.85;
+  position:absolute;bottom:50px;right:28px;z-index:20;
+  width:22px;height:48px;
+  background:linear-gradient(180deg,#f0ccaf 0%,#e4b894 35%,#d4a07a 100%);
+  border-radius:11px 11px 9px 9px;
+  box-shadow:0 6px 16px rgba(0,0,0,.35),inset 0 -2px 4px rgba(160,110,70,.2);
+  animation:fingerSwipe 4s cubic-bezier(.22,1,.36,1) infinite;
+  opacity:.9;
+}
+
+/* Fingernail */
+.phone-mockup__finger::before{
+  content:'';position:absolute;top:2px;left:4px;right:4px;height:10px;
+  background:linear-gradient(180deg,rgba(255,230,215,.55),rgba(255,210,190,.2));
+  border-radius:7px 7px 3px 3px;
+}
+
+/* Knuckle crease */
+.phone-mockup__finger::after{
+  content:'';position:absolute;bottom:10px;left:3px;right:3px;height:1.5px;
+  background:rgba(170,120,80,.3);border-radius:50%;
 }
 
 @keyframes fingerSwipe{
-  0%,100%{transform:translateY(0);opacity:.85}
-  30%{transform:translateY(-30px);opacity:1}
-  60%{transform:translateY(10px);opacity:.7}
+  0%,100%{transform:translateY(0);opacity:.9}
+  15%{transform:translateY(-5px);opacity:1}
+  40%{transform:translateY(-35px);opacity:1}
+  65%{transform:translateY(-35px);opacity:.85}
+  85%{transform:translateY(5px);opacity:.7}
 }
 
 .phone-mockup__label{
@@ -917,6 +991,8 @@ body::before{
   .section-title{font-size:2.1rem}
   .hero__content{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:2.5rem;text-align:left}
   .hero__ebook-container{margin:0}
+  .hero__ebook--mobile{display:none}
+  .hero__ebook--desktop{display:block}
   .hero__proof{margin-left:0}
   .hero-offer{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:2rem}
   .hero-offer__image{margin-bottom:0}
