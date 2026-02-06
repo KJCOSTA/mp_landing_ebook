@@ -141,6 +141,105 @@ body::before{
   100%{opacity:.15;transform:scale(.7)}
 }
 
+/* ===== MOON ===== */
+
+.moon{
+  position:fixed;
+  top:6%;right:10%;
+  width:80px;height:80px;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#f5f0d0 0%,#e8deb5 40%,#d4c88a 100%);
+  box-shadow:
+    0 0 40px rgba(245,240,208,.12),
+    0 0 80px rgba(245,240,208,.06),
+    0 0 120px rgba(245,240,208,.03);
+  z-index:-1;pointer-events:none;opacity:.7;
+}
+
+.moon::before{
+  content:'';position:absolute;
+  top:18%;left:22%;width:14px;height:14px;border-radius:50%;
+  background:rgba(180,170,130,.25);
+  box-shadow:26px 12px 0 7px rgba(180,170,130,.18),8px 30px 0 4px rgba(180,170,130,.12);
+}
+
+.moon::after{
+  content:'';position:absolute;inset:-25px;border-radius:50%;
+  background:radial-gradient(circle,rgba(245,240,208,.08) 0%,transparent 70%);
+  animation:moonGlow 8s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+
+@keyframes moonGlow{
+  0%{opacity:.4;transform:scale(.95)}
+  100%{opacity:1;transform:scale(1.06)}
+}
+
+/* ===== OCEAN (bottom of page) ===== */
+
+.ocean{
+  position:relative;height:140px;overflow:hidden;
+  background:linear-gradient(180deg,transparent 0%,rgba(5,15,40,.6) 20%,rgba(8,25,60,.8) 50%,rgba(10,35,80,.95) 80%,rgba(6,20,55,1) 100%);
+}
+
+.ocean__wave{
+  position:absolute;width:200%;height:50px;
+  bottom:0;left:-50%;
+  background:
+    radial-gradient(ellipse 60% 100% at 30% 100%,rgba(30,80,150,.25) 0%,transparent 50%),
+    radial-gradient(ellipse 50% 100% at 70% 100%,rgba(20,60,130,.2) 0%,transparent 50%);
+  animation:oceanDrift 10s ease-in-out infinite;
+}
+
+.ocean__wave--2{
+  bottom:15px;height:40px;opacity:.5;
+  animation:oceanDrift 14s ease-in-out infinite reverse;
+}
+
+.ocean__wave--3{
+  bottom:30px;height:30px;opacity:.3;
+  animation:oceanDrift 18s ease-in-out infinite;
+}
+
+.ocean__shimmer{
+  position:absolute;bottom:0;left:0;right:0;height:60%;
+  background:linear-gradient(180deg,transparent 0%,rgba(80,140,220,.04) 50%,rgba(100,160,240,.06) 100%);
+  animation:oceanShimmer 6s ease-in-out infinite alternate;
+}
+
+@keyframes oceanDrift{
+  0%,100%{transform:translateX(0)}
+  50%{transform:translateX(2.5%)}
+}
+
+@keyframes oceanShimmer{
+  0%{opacity:.3}100%{opacity:.8}
+}
+
+/* ===== SECTION LIGHT SWEEP ===== */
+
+.section-sweep{position:relative;overflow:hidden}
+
+.section-sweep::after{
+  content:'';position:absolute;
+  top:0;left:-120%;width:60%;height:100%;
+  background:linear-gradient(105deg,transparent 0%,rgba(255,255,255,.015) 30%,rgba(242,176,94,.03) 50%,rgba(255,255,255,.015) 70%,transparent 100%);
+  pointer-events:none;z-index:1;
+  opacity:0;
+  transition:opacity 1s;
+}
+
+.section-sweep.visible::after{
+  opacity:1;
+  animation:sectionSweep 10s ease-in-out infinite;
+}
+
+@keyframes sectionSweep{
+  0%{left:-120%}
+  40%{left:160%}
+  100%{left:160%}
+}
+
 /* ===== TEXT GRADIENTS ===== */
 
 .text-glow{
@@ -1235,9 +1334,10 @@ body::before{
   .pix-steps{grid-template-columns:repeat(4,1fr)}
   .transform-grid{grid-template-columns:repeat(2,1fr)}
   .proof-bar__grid{grid-template-columns:repeat(4,1fr)}
-  .lifestyle-grid{grid-template-columns:repeat(3,1fr)}
+  .lifestyle-grid{grid-template-columns:repeat(2,1fr)}
   .lifestyle-card__img{height:260px}
   .phone-mockup{width:300px;height:560px}
+  .moon{width:90px;height:90px}
 }
 
 @media(min-width:640px){
@@ -1256,6 +1356,7 @@ body::before{
   .product-benefits{margin:0}
   .testimonials-grid{flex-direction:row}
   .testimonial-card{flex:1}
+  .lifestyle-grid{grid-template-columns:repeat(3,1fr)}
   .lifestyle-highlight__card{display:grid;grid-template-columns:1fr 1fr}
   .lifestyle-highlight__img{height:100%;min-height:300px}
   .lifestyle-highlight__text{padding:2rem;text-align:left;display:flex;flex-direction:column;justify-content:center}
