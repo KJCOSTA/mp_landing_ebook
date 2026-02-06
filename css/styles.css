@@ -1326,6 +1326,29 @@ body::before{
   display:block;
 }
 
+/* ===== MOBILE PERFORMANCE ===== */
+
+/* GPU compositing for parallax elements */
+.stars,.moon,.aurora,.aurora__wave{transform:translateZ(0);backface-visibility:hidden}
+
+/* Reduce heavy effects on mobile */
+@media(max-width:639px){
+  /* Simpler star glow */
+  .stars span{box-shadow:none!important}
+  /* Disable shimmer on mobile - saves GPU compositing */
+  .shimmer-img::after{animation:none;display:none}
+  /* Disable section sweep animation on mobile */
+  .section-sweep::after{display:none}
+  /* Simpler moon glow */
+  .moon::after{animation:none}
+  /* Lighter hero orbs */
+  .hero__orb{animation-duration:30s}
+  /* Disable lens flare on mobile */
+  .hero__ebook-container::after{display:none}
+  /* Simpler aurora */
+  .aurora__wave{animation-duration:30s}
+}
+
 /* ===== RESPONSIVE ===== */
 
 @media(min-width:480px){

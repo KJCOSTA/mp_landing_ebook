@@ -1,10 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-  // ===== STARRY SKY (more stars, varied sizes) =====
+  // ===== STARRY SKY (fewer on mobile for performance) =====
+  var isMobile = window.innerWidth < 640;
   (function createStars() {
     var container = document.getElementById('stars');
     if (!container) return;
-    var count = 120;
+    var count = isMobile ? 45 : 100;
     for (var i = 0; i < count; i++) {
       var star = document.createElement('span');
       star.style.left = Math.random() * 100 + '%';
@@ -14,9 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
       star.style.height = size + 'px';
       star.style.setProperty('--dur', (Math.random() * 5 + 2) + 's');
       star.style.animationDelay = (Math.random() * 6) + 's';
-      if (size > 2) {
-        star.style.boxShadow = '0 0 ' + (size * 2) + 'px rgba(255,255,255,.15)';
-      }
       container.appendChild(star);
     }
   })();
@@ -98,6 +96,11 @@ document.addEventListener('DOMContentLoaded', function () {
     var waves = aurora ? aurora.querySelectorAll('.aurora__wave') : [];
     var ticking = false;
 
+    // GPU hints for smooth compositing
+    if (starsEl) starsEl.style.willChange = 'transform';
+    if (moonEl) moonEl.style.willChange = 'transform, opacity';
+    if (aurora) aurora.style.willChange = 'opacity';
+
     window.addEventListener('scroll', function () {
       if (!ticking) {
         requestAnimationFrame(function () {
@@ -105,24 +108,26 @@ document.addEventListener('DOMContentLoaded', function () {
           var docHeight = document.documentElement.scrollHeight - window.innerHeight;
           var progress = docHeight > 0 ? scrollY / docHeight : 0;
 
-          // Aurora shift
+          // Aurora shift (lighter on mobile — skip wave transforms)
           if (aurora) {
             aurora.style.opacity = 0.4 + progress * 0.4;
-            waves.forEach(function (wave, i) {
-              var speed = (i + 1) * 8;
-              wave.style.transform = 'translateY(' + (scrollY * speed / docHeight * -1) + 'px)';
-            });
+            if (!isMobile) {
+              waves.forEach(function (wave, i) {
+                var speed = (i + 1) * 8;
+                wave.style.transform = 'translateY(' + (scrollY * speed / docHeight * -1) + 'px)';
+              });
+            }
           }
 
           // Stars parallax — slow drift upward for depth
           if (starsEl) {
-            starsEl.style.transform = 'translateY(' + (scrollY * -0.15) + 'px)';
+            starsEl.style.transform = 'translate3d(0,' + (scrollY * -0.12) + 'px,0)';
           }
 
           // Moon parallax — faster drift to disappear as you scroll down
           if (moonEl) {
             var moonOpacity = Math.max(0, 1 - progress * 2.5);
-            moonEl.style.transform = 'translateY(' + (scrollY * -0.35) + 'px)';
+            moonEl.style.transform = 'translate3d(0,' + (scrollY * -0.3) + 'px,0)';
             moonEl.style.opacity = moonOpacity * 0.7;
           }
 
